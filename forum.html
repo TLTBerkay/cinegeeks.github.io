@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" type="text/css" href="/View/forum_style.css">
+
+
+    <title>Forum</title>
+</head>
+<body class="grey lighten-3">
+    <!--Navbar-->
+    <nav class="navbar navbar-expand-lg  navbar-dark bg-dark" id="navbar">
+        <div class="container-fluid">
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a class="navbar-brand" href="index.html">CINEGEEK</a>
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="index.html">Home</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="forum.html">Forum</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="film.html">Movie</a>
+              </li>
+            </ul>
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+                <li class="logged-in" style="display:none;">
+                    <a href="#" class="text modal-trigger" data-target="modal-account">Account</a>
+                </li>
+                <li class="logged-in" style="display:none;">
+                    <a href="#" class="text" id="logout">Logout</a>
+                </li>
+                <li class="logged-in" style="display:none;">
+                    <a href="#" class="text modal-trigger" data-target="modal-create">New subject</a>
+                </li>
+                <li class="logged-out" style="display:none;">
+                    <a href="#" class="grey-text modal-trigger" data-target="modal-login">Sign-in</a>
+                </li>
+                <li class="logged-out" style="display:none;">
+                    <a href="#" class="grey-text modal-trigger" data-target="modal-signup">Sign-up</a>
+                </li>
+            </ul>
+        
+          </div>
+        </div>
+      </nav>
+
+
+    <!--Üyelik Oluştur Modal-->
+    <div id="modal-signup" class="modal">
+        <div class="modal-content">
+            <h4>Sign Up</h4><br/>
+            <form id="signup-form">
+                <div class="input-field">
+                    <input type="email" id="signup-email" required/>
+                    <label for="signup-email">Email Address</label>
+                </div>
+                <div class="input-field">
+                    <input type="password" id="signup-password" required/>
+                    <label for="signup-password">Password</label>
+                </div>
+                <div class="input-field">
+                    <input type="text" id="signup-bio" required/>
+                    <label for="signup-bio">User information</label>
+                </div>
+                <button class="btn yellow darken-2">Save</button>
+            </form>
+        </div>
+    </div>
+
+     <!--Login Modal-->
+     <div id="modal-login" class="modal">
+        <div class="modal-content">
+            <h4>Log in</h4><br/>
+            <form id="login-form">
+                <div class="input-field">
+                    <input type="email" id="login-email" required/ autocomplete="off">
+                    <label for="login-email">Email Address</label>
+                </div>
+                <div class="input-field">
+                    <input type="password" id="login-password" required/>
+                    <label for="login-password">Password</label>
+                </div>
+                <button class="btn yellow darken-2">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!--Hesap Modal-->
+    <div id="modal-account" class="modal">
+        <div class="modal-content center-align">
+            <h4>User Account</h4><br/>
+            <div class="account-details"></div>
+        </div>
+    </div>
+
+     <!--Forum Oluştur Modal-->
+     <div id="modal-create" class="modal">
+        <div class="modal-content">
+            <h4>Create a Review</h4><br/>
+            <form id="create-form">
+                <div class="input-field">
+                    <input type="text" id="title" required/ autocomplete="off">
+                    <label for="title">Review Title</label>
+                </div>
+                <div class="input-field">
+                    <textarea type="text" id="content" class="materialize-textarea" required></textarea>
+                    <label for="content">Review Content</label>
+                </div>
+                <button class="btn yellow darken-2">Create</button>
+            </form>
+        </div>
+    </div>
+    <!--Forum Listesi -->
+    <div class="container" style="margin-top:40px;">
+        <ul class="collapsible z-depth-0 guides" style="border:none;">
+           
+        </ul>
+    </div>
+
+    
+        <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/8.6.1/firebase-firestore.js"></script>
+
+        <script>
+            var firebaseConfig = {
+                apiKey: "AIzaSyBg_7kPFEDf4g0TrhyIjFhNJR8NZY30U70",
+                authDomain: "cinegeek-d3656.firebaseapp.com",
+                projectId: "cinegeek-d3656",
+                storageBucket: "cinegeek-d3656.appspot.com",
+                messagingSenderId: "327174661482",
+                appId: "1:327174661482:web:5096950fbb93d9f5a27113"
+        };
+            firebase.initializeApp(firebaseConfig);
+            const auth=firebase.auth();
+            const db=firebase.firestore();
+        </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <script src="Control_scripts/script.js"></script>
+    <script src="Control_scripts/auth.js"></script>
+</body>
+</html>
